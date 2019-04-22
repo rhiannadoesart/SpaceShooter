@@ -20,5 +20,5 @@ public class weaponController : MonoBehaviour
     {
         Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
         audioSource.Play();
-    }
+    }   
 }

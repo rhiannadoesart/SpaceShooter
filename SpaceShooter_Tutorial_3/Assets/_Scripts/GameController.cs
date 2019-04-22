@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public GameObject[] hazards;
+    public GameObject playerExplosion;
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait;
@@ -21,11 +22,12 @@ public class GameController : MonoBehaviour
     public Text RestartText;
     public Text GameOverText;
     public Text WinText;
-
     public int score;
+
     private bool gameOver;
     private bool restart;
-   
+    private int lives;
+    private PlayerController playerController;
 
     void Start()
     {
@@ -82,7 +84,7 @@ public class GameController : MonoBehaviour
         UpdateScore();
     }
 
-    public void UpdateScore()
+    void UpdateScore()
     {
         ScoreText.text = "Points: " + score;
         if (score >= 100)
@@ -94,11 +96,23 @@ public class GameController : MonoBehaviour
             victoryMusic.Play();
         }
     }
+
     public void GameOver()
     {
-        GameOverText.text = "Game Over...  Game Created by Rhianna Horner...";
-        gameOver = true;
-        deathMusic.clip = death;
-        deathMusic.Play();
+            GameOverText.text = "Game Over...  Game Created by Rhianna Horner...";
+            gameOver = true;
+            KillPlayer();
+            deathMusic.clip = death;
+            deathMusic.Play();
     }
+
+    void KillPlayer()
+    {
+        if (gameObject.CompareTag("Player"))
+        {
+            Instantiate(playerExplosion, transform.position, transform.rotation);
+        }
+        Destroy(gameObject);
+    }
+
 }

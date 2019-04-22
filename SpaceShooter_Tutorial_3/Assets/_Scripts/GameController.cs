@@ -12,15 +12,20 @@ public class GameController : MonoBehaviour
     public float spawnWait;
     public float startWait;
     public float waveWait;
+    public AudioClip victory;
+    public AudioClip death;
+    public AudioSource victoryMusic;
+    public AudioSource deathMusic;
 
     public Text ScoreText;
     public Text RestartText;
     public Text GameOverText;
     public Text WinText;
 
-    private int score;
+    public int score;
     private bool gameOver;
     private bool restart;
+   
 
     void Start()
     {
@@ -36,12 +41,15 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (restart)
         {
-            SceneManager.LoadScene("SpaceShooter_Main");
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                SceneManager.LoadScene("SpaceShooter_Main_Final");
+            }
+            if (Input.GetKey("escape"))
+                Application.Quit();
         }
-        if (Input.GetKey("escape"))
-            Application.Quit();
     }
 
     IEnumerator SpawnWaves ()
@@ -74,7 +82,7 @@ public class GameController : MonoBehaviour
         UpdateScore();
     }
 
-    void UpdateScore()
+    public void UpdateScore()
     {
         ScoreText.text = "Points: " + score;
         if (score >= 100)
@@ -82,11 +90,15 @@ public class GameController : MonoBehaviour
             WinText.text = "You win! Game Created by Rhianna Horner!";
             gameOver = true;
             restart = true;
+            victoryMusic.clip = victory;
+            victoryMusic.Play();
         }
     }
     public void GameOver()
     {
         GameOverText.text = "Game Over...  Game Created by Rhianna Horner...";
         gameOver = true;
+        deathMusic.clip = death;
+        deathMusic.Play();
     }
 }

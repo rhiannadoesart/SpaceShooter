@@ -8,13 +8,14 @@ public class BGScroller : MonoBehaviour
     public float tileSizeZ;
 
     private Vector3 startPosition;
-    // Start is called before the first frame update
+    private GameController gameController;
+
     void Start()
     {
         startPosition = transform.position;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         float newPosition = Mathf.Repeat(Time.time * scrollSpeed, tileSizeZ);

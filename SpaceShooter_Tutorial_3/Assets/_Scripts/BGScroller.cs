@@ -8,6 +8,7 @@ public class BGScroller : MonoBehaviour
     public float tileSizeZ;
 
     private Vector3 startPosition;
+
     void Start()
     {
         startPosition = transform.position;

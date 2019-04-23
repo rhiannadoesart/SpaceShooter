@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     private bool restart;
     private int lives;
     private PlayerController playerController;
+    private BGScroller scroller;
 
     void Start()
     {
@@ -39,6 +40,16 @@ public class GameController : MonoBehaviour
         score = 0;
         UpdateScore();
         StartCoroutine (SpawnWaves());
+
+        GameObject scrollerObject = GameObject.FindWithTag("BGScroller");
+        if (scrollerObject != null)
+        {
+            scroller = scrollerObject.GetComponent<BGScroller>();
+        }
+        if (scroller == null)
+        {
+            Debug.Log("Cannot find 'BGScroller' script");
+        }
     }
 
     void Update()
@@ -84,7 +95,7 @@ public class GameController : MonoBehaviour
         UpdateScore();
     }
 
-    void UpdateScore()
+    public void UpdateScore()
     {
         ScoreText.text = "Points: " + score;
         if (score >= 100)
@@ -94,25 +105,25 @@ public class GameController : MonoBehaviour
             restart = true;
             victoryMusic.clip = victory;
             victoryMusic.Play();
+            scroller.scrollSpeed = -10f;
         }
     }
 
     public void GameOver()
     {
-            GameOverText.text = "Game Over...  Game Created by Rhianna Horner...";
-            gameOver = true;
-            KillPlayer();
-            deathMusic.clip = death;
-            deathMusic.Play();
+        GameOverText.text = "Game Over...  Game Created by Rhianna Horner...";
+        gameOver = true;
+        deathMusic.clip = death;
+        deathMusic.Play();
     }
 
-    void KillPlayer()
+   /* public void KillPlayer()
     {
         if (gameObject.CompareTag("Player"))
         {
             Instantiate(playerExplosion, transform.position, transform.rotation);
         }
         Destroy(gameObject);
-    }
+    }*/
 
 }

@@ -28,6 +28,16 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        if (gameController == null)
+        {
+            Debug.Log("Cannot find 'GameController' script");
+        }
+
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         lives = 3;
@@ -83,11 +93,9 @@ public class PlayerController : MonoBehaviour
     public void SetLivesText()
     {
         LivesText.text = "Lives: " + lives.ToString();
-        if (lives <= 0)
+        if (lives < 1)
         {
             gameController.GameOver();
         }
-    }
-    
-   
+    }   
 }
